@@ -1,6 +1,6 @@
 define(function(require) {
-	var Event = require('../lib/events');
-	var Class = require('../lib/class');
+	var Event = require('../../lib/events');
+	var Class = require('../../lib/class');
 
 	/**
 	 * Timer类
