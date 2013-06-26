@@ -1,28 +1,3 @@
-/**
- * DisplayObject类
- * @name DisplayObject
- * @class DisplayObject类是可放在舞台上的所有显示对象的基类。DisplayObject类定义了若干显示对象的基本属性。
- * @augments Event
- * @property id DisplayObject对象唯一标识符id。
- * @property name DisplayObject对象的名称。
- * @property x DisplayObject对象相对父容器的x轴坐标。
- * @property y DisplayObject对象相对父容器的y轴坐标。
- * @property regX DisplayObject对象的注册点（中心点）的x轴坐标。
- * @property regY DisplayObject对象的注册点（中心点）的y轴坐标。
- * @property width DisplayObject对象的宽。
- * @property height DisplayObject对象的高。
- * @property alpha DisplayObject对象的透明度。取值范围为0-1，默认为1.
- * @property scaleX DisplayObject对象在x轴上的缩放值。取值范围为0-1。
- * @property scaleY DisplayObject对象在y轴上的缩放值。取值范围为0-1.
- * @property rotation DisplayObject对象的旋转角度。默认为0.
- * @property visible 指示DisplayObject对象是否可见。默认为true。
- * @property eventEnabled 指示DisplayObject对象是否接受交互事件。默认为true。.
- * @property transformEnabled 指示DisplayObject对象是否执行交换。默认为false。
- * @property useHandCursor 指示DisplayObject对象是否支持手型的鼠标光标。默认为false。
- * @property polyArea 指示DisplayObject对象的多边形碰撞区域。默认为null，即使用对象的外包围矩形。
- * @property mask 指示DisplayObject对象的遮罩对象。默认为null。
- * @property parent DisplayObject对象的父容器。
- */
 define(function(require) {
   var Class = require('lib/class');
   var Event = require('lib/events');
@@ -34,6 +9,31 @@ define(function(require) {
   Math.DEG_TO_RAD = Math.PI / 180;
   Math.RAD_TO_DEG = 180 / Math.PI;
 
+  /**
+   * DisplayObject类
+   * @name DisplayObject
+   * @class DisplayObject类是可放在舞台上的所有显示对象的基类。DisplayObject类定义了若干显示对象的基本属性。
+   * @augments Event
+   * @property id DisplayObject对象唯一标识符id。
+   * @property name DisplayObject对象的名称。
+   * @property x DisplayObject对象相对父容器的x轴坐标。
+   * @property y DisplayObject对象相对父容器的y轴坐标。
+   * @property regX DisplayObject对象的注册点（中心点）的x轴坐标。
+   * @property regY DisplayObject对象的注册点（中心点）的y轴坐标。
+   * @property width DisplayObject对象的宽。
+   * @property height DisplayObject对象的高。
+   * @property alpha DisplayObject对象的透明度。取值范围为0-1，默认为1.
+   * @property scaleX DisplayObject对象在x轴上的缩放值。取值范围为0-1。
+   * @property scaleY DisplayObject对象在y轴上的缩放值。取值范围为0-1.
+   * @property rotation DisplayObject对象的旋转角度。默认为0.
+   * @property visible 指示DisplayObject对象是否可见。默认为true。
+   * @property eventEnabled 指示DisplayObject对象是否接受交互事件。默认为true。.
+   * @property transformEnabled 指示DisplayObject对象是否执行交换。默认为false。
+   * @property useHandCursor 指示DisplayObject对象是否支持手型的鼠标光标。默认为false。
+   * @property polyArea 指示DisplayObject对象的多边形碰撞区域。默认为null，即使用对象的外包围矩形。
+   * @property mask 指示DisplayObject对象的遮罩对象。默认为null。
+   * @property parent DisplayObject对象的父容器。
+   */
   var DisplayObject = Class.create({
     Implements: Event,
 
@@ -66,7 +66,7 @@ define(function(require) {
       this._lastState = {};
       this._stateList = ['x', 'y', 'regX', 'regY', 'width', 'height', 'alpha', 'scaleX', 'scaleY', 'rotation', 'visible', '_depth'];
 
-      //this.implement(props);
+      //TODO: add to core
       utils.merge(this, props, true);
     },
     /**
@@ -107,6 +107,7 @@ define(function(require) {
      * @protected
      */
     _render: function(context) {
+      //TODO: 简化匪夷所思的context
       var ctx = this.context || context;
       if (!this.visible || this.alpha <= 0) {
         if (ctx.hide != null) ctx.hide(this);
@@ -168,6 +169,7 @@ define(function(require) {
      * @return {Number} 在包围矩形之内返回1，在边界上返回0，否则返回-1。
      */
     hitTestPoint: function(x, y, usePolyCollision) {
+      //TODO: 核心类设计
       return utils.hitTestPoint(this, x, y, usePolyCollision);
     },
     /**
@@ -281,6 +283,7 @@ define(function(require) {
      * @return {Stage} 返回对象的舞台。
      */
     getStage: function() {
+      //TODO: stage类
       var obj = this;
       while (obj.parent) obj = obj.parent;
 //      if (obj instanceof  Stage) return obj;

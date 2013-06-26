@@ -160,6 +160,7 @@ define(function() {
   // add alias
   Events.prototype.addEventListener = Events.prototype.bind = Events.prototype.on;
   Events.prototype.removeEventListener = Events.prototype.unbind = Events.prototype.off;
+  Events.prototype.dispatchEvent = Events.prototype.fire = Events.prototype.trigger;
 
   return Events
 })

@@ -9,7 +9,7 @@
 define(function(require) {
   var Class = require('lib/class');
 
-  Class.create({
+  var Matrix = Class.create({
     initialize: function(a, b, c, d, tx, ty) {
       this.a = a;
       this.b = b;
