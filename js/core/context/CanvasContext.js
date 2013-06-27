@@ -1,4 +1,5 @@
 define(function(require) {
+	var iGame = require('core/iGame');
 	var utils = require('utils/Utils');
 	var Context = require('context/Context');
 	var DisplayObjectContainer = require('display/DisplayObjectContainer');
@@ -15,6 +16,9 @@ define(function(require) {
 		initialize: function(props) {
 			CanvasContext.superclass.initialize.call(this, props);
 			this.context = this.canvas.getContext('2d');
+		},
+		Statics: {
+			// instance: new CanvasContext({canvas: iGame.createDOM('canvas')})
 		},
 		/**
 		 * 准备绘制，保存当前上下文。
@@ -34,9 +38,8 @@ define(function(require) {
 				//we implements the mask function by using 'source-in' composite operation.
 				//so can't draw objects with masks into this canvas directly.
 				var w = target.width, h = target.height;
-				//TODO: 和原文不一致
-				var context = this.context, canvas = context.canvas, ctx = context.context;
-				canvas.width = 0;
+				var context = CanvasContext.instance, canvas = context.canvas, ctx = context.context;
+				// canvas.width = 0;
 				canvas.width = w;
 				canvas.height = h;
 				context.startDraw();
@@ -116,6 +119,8 @@ define(function(require) {
 			this.context.clearRect(x, y, width, height);
 		}
 	});
+
+	CanvasContext.instance = new CanvasContext({canvas: iGame.createDOM('canvas')});
 
 	return CanvasContext;
 });

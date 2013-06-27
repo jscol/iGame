@@ -1,16 +1,14 @@
 define(function(require) {
+  var iGame = require('core/iGame');
   var Class = require('lib/class');
   var Event = require('lib/events');
 
+  // var Stage = require('display/Stage');
   var Drawable = require('display/Drawable');
 
   var utils = require('utils/Utils');
 
-  Math.DEG_TO_RAD = Math.PI / 180;
-  Math.RAD_TO_DEG = 180 / Math.PI;
-
   /**
-   * DisplayObject类
    * @name DisplayObject
    * @class DisplayObject类是可放在舞台上的所有显示对象的基类。DisplayObject类定义了若干显示对象的基本属性。
    * @augments Event
@@ -66,8 +64,7 @@ define(function(require) {
       this._lastState = {};
       this._stateList = ['x', 'y', 'regX', 'regY', 'width', 'height', 'alpha', 'scaleX', 'scaleY', 'rotation', 'visible', '_depth'];
 
-      //TODO: add to core
-      utils.merge(this, props, true);
+      iGame.merge(this, props, true);
     },
     /**
      * 设置可绘制对象，默认是一个Image对象，可通过重写此方法进行DOM绘制。
@@ -81,7 +78,7 @@ define(function(require) {
       }
     },
     /**
-     * 获得可绘制对象实体，如Image或Canvas等其他DOM对象。
+     * 获得可绘制对象实体。如Image或Canvas等其他DOM对象。
      * @param {Context} context 渲染上下文。
      */
     getDrawable: function(context) {
@@ -97,7 +94,7 @@ define(function(require) {
     /**
      * 对象数据更新接口，可通过重写此方法实现对象的数据更新。
      * @param {Object} timeInfo 对象更新所需的时间信息。
-     * @return {Boolean} 更新成功 返回true，否则为false。
+     * @return {Boolean} 更新成功返回true，否则为false。
      */
     update: function(timeInfo) {
       return true;
@@ -107,7 +104,6 @@ define(function(require) {
      * @protected
      */
     _render: function(context) {
-      //TODO: 简化匪夷所思的context
       var ctx = this.context || context;
       if (!this.visible || this.alpha <= 0) {
         if (ctx.hide != null) ctx.hide(this);
@@ -169,8 +165,7 @@ define(function(require) {
      * @return {Number} 在包围矩形之内返回1，在边界上返回0，否则返回-1。
      */
     hitTestPoint: function(x, y, usePolyCollision) {
-      //TODO: 核心类设计
-      return utils.hitTestPoint(this, x, y, usePolyCollision);
+      return iGame.hitTestPoint(this, x, y, usePolyCollision);
     },
     /**
      * 计算DisplayObject对象的包围矩形，以确定由object参数指定的显示对象是否与其相交。
@@ -179,7 +174,7 @@ define(function(require) {
      * @return {Boolean} 相交返回true，否则返回false。
      */
     hitTestObject: function(object, usePolyCollision) {
-      return utils.hitTestObject(this, object, usePolyCollision);
+      return iGame.hitTestObject(this, object, usePolyCollision);
     },
     /**
      * 将x和y指定的点从显示对象的（本地）坐标转换为舞台（全局）坐标。
@@ -283,12 +278,11 @@ define(function(require) {
      * @return {Stage} 返回对象的舞台。
      */
     getStage: function() {
-      //TODO: stage类
       var obj = this;
       while (obj.parent) obj = obj.parent;
-//      if (obj instanceof  Stage) return obj;
-//      return null;
-      return obj;
+      // if (obj instanceof Stage) return obj;
+      if (obj.stage) return obj;
+      return null;
     },
     /**
      * 把DisplayObject对象缓存到一个新的canvas，对于包含复杂内容且不经常改变的对象使用缓存。
@@ -297,7 +291,6 @@ define(function(require) {
      * @return {Object} 显示对象的缓存结果。根据参数toImage不同而返回Canvas或Image对象。
      */
     cache: function(toImage, type) {
-      //TODO
       return this._cache = utils.cacheObject(this, toImage, type);
     },
     /**

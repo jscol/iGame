@@ -10,7 +10,7 @@ define(function(require) {
 	 * @property eventChildren 指示DisplayObjectContainer的子元素是否接受交互事件。默认为true。
 	 * @property autosize 指示DisplayObjectContainer是否随子元素自动设置大小。默认为false。
 	 */
-	 var DisplayObjectContainer = DisplayObject.extend({
+	var DisplayObjectContainer = DisplayObject.extend({
 	 	initialize: function(props) {
 	 		this.eventChildren = true;
 	 		this.autosize = false;
@@ -57,6 +57,19 @@ define(function(require) {
 				this.height = rect.height;
 	 		}
 
+	 		return this;
+	 	},
+	 	/**
+	 	 * 将一个DisplayObject子实例添加到DisplayObjectContainer实例的子级列表中的指定位置。
+	 	 * @param {DisplayObject} child 要添加的显示对象
+	 	 * @return {DisplayObjectContainer} 返回显示容器本身。
+	 	 */
+	 	addChild: function(child) {
+	 		var start = this.children.length;
+	 		for (var i = 0; i < arguments.length; i++) {
+	 			var child = arguments[i];
+	 			this.addChildAt(child, start + i);
+	 		}
 	 		return this;
 	 	},
 	 	/**
@@ -257,7 +270,7 @@ define(function(require) {
 			if (returnAll) return result;
 			return null;
 	 	}
-	 });
+	});
 
-	 return DisplayObjectContainer;
+	return DisplayObjectContainer;
 });

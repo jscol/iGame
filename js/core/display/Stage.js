@@ -1,4 +1,5 @@
 define(function(require) {
+	var iGame = require('core/iGame');
 	var utils = require('utils/Utils');
 	var Rectangle = require('geom/Rectangle');
 	var DisplayObjectContainer = require('display/DisplayObjectContainer');
@@ -17,6 +18,8 @@ define(function(require) {
 			this.stageX = 0;
 			this.stageY = 0;
 			this.paused = false;
+			//判断是否stage使用，避免在DisplayObject里面require#stage
+			this.stage = true;
 
 			this._eventTarget = null;
 
@@ -39,6 +42,7 @@ define(function(require) {
 		 * 更新舞台Stage上所有显示对象的数据。
 		 */
 		_update: function(timeInfo) {
+			utils.log(timeInfo);
 			//Stage作为根容器，先更新所有子对象，再调用update方法。
 			var copy = this.children.slice(0);
 			for (var i = 0, len = copy.length; i < len; i++) {
@@ -94,7 +98,7 @@ define(function(require) {
 		 * 更新舞台Stage在页面中的偏移位置，即stageX/stageY。
 		 */
 		updatePosition: function() {
-			var offset = utils.getElementOffset(this.context.canvas);
+			var offset = iGame.getElementOffset(this.context.canvas);
 			this.stageX = offset.left;
 			this.stageY = offset.top;
 		}

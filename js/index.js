@@ -1,7 +1,9 @@
 define(function(require) {
 	var CanvasContext = require('context/CanvasContext');
 	var Timer = require('utils/Timer');
+	Class = require('lib/class');
   	Stage = require('display/Stage');
+  	Bitmap = require('display/Bitmap');
 
 
 	
@@ -16,7 +18,7 @@ define(function(require) {
 	var canvas = document.getElementById('demo');
 	var context = new CanvasContext({canvas: canvas});
 	stage = new Stage({width: 480, height: 320, context: context});
-	rect1 = new Quark.Bitmap({id:"blue", x:100, y:100, rotation:0, regX:25, regY:50, image:createRect(50, 100, "#00f")});
+	rect1 = new Bitmap({id:"blue", x:100, y:100, rotation:0, regX:25, regY:50, image:createRect(50, 100, "#00f")});
 
 	console.log(context);
 

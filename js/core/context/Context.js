@@ -1,6 +1,6 @@
 define(function(require) {
 	var Class = require('lib/class');
-	var utils = require('utils/Utils');
+	var iGame = require('core/iGame');
 
 	/**
 	 * @name {Context:[name]}
@@ -12,7 +12,7 @@ define(function(require) {
 		initialize: function(props) {
 			if (props.canvas == null) throw 'Context Error: canvas is required.';
 			this.canvas = null;
-			utils.merge(this, props);
+			iGame.merge(this, props);
 		},
 
 		/**
