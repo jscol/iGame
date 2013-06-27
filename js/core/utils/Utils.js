@@ -144,6 +144,7 @@ define(function(require) {
    */
   Utils.cacheObject = function(obj, toImage, type) {
     var w = obj.width, h = obj.height, mask = obj.mask;
+    //TODO: iGame.createDOM
     var canvas = Utils.createDOM('canvas', {width: w, height: h});
     var context = new CanvasContext({canvas: canvas});
     obj.mask = null;

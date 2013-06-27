@@ -3,9 +3,8 @@ define(function(require) {
   var Class = require('lib/class');
   var Event = require('lib/events');
 
-  // var Stage = require('display/Stage');
+  var Matrix = require('geom/Matrix')
   var Drawable = require('display/Drawable');
-
   var utils = require('utils/Utils');
 
   /**

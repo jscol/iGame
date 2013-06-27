@@ -14,5 +14,5 @@ seajs.config({
   },
   charset: 'utf-8',
   timeout: 20000,
-  debug: 1
+  debug: 2
 });

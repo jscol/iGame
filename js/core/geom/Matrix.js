@@ -80,7 +80,7 @@ define(function(require) {
       this.ty = -(a * this.ty - b * tx) / i;
       return this;
     },
-    transformpoint: function(point, round, returnNew) {
+    transformPoint: function(point, round, returnNew) {
       var x = point.x * this.a + point.y * this.c + this.tx;
       var y =	point.x * this.b + point.y * this.d + this.ty;
       if(round)

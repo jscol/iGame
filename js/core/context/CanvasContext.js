@@ -2,6 +2,8 @@ define(function(require) {
 	var iGame = require('core/iGame');
 	var utils = require('utils/Utils');
 	var Context = require('context/Context');
+	var Graphics = require('display/Graphics');
+	var Text = require('display/Text');
 	var DisplayObjectContainer = require('display/DisplayObjectContainer');
 	var Stage = require('display/Stage');
 
