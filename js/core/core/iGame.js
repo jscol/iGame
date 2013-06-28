@@ -20,7 +20,7 @@ define(function(require) {
 	 * @param  {String} id DOM对象的id。
 	 * @return {HTMLElement} DOM对象。
 	 */
-	iGame.getDom = function(id) {
+	iGame.getDOM = function(id) {
 		return document.getElementById(id);
 	};
 

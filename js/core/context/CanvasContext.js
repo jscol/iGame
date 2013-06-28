@@ -68,7 +68,7 @@ define(function(require) {
 				this.context.drawImage(target._cache, 0, 0);
 			} else if (target instanceof Graphics || target instanceof Text) {
 				//special drawing
-				target.draw(this.context);
+				target._draw(this.context);
 			} else {
 				//normal draw
 				var img = target.getDrawable(this);

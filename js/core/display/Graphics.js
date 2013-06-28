@@ -63,11 +63,12 @@ define(function(require) {
 		/**
 		 * 指定绘制图形的线性渐变填充样式。
 		 */
-		beginlinearGradientFill: function(x0, y0, x1, y1, colors, ratios) {
+		beginLinearGradientFill: function(x0, y0, x1, y1, colors, ratios) {
 			var gradient = Graphics._getContext().createLinearGradient(x0, y0, x1, y1);
 			for (var i = 0, len = colors.length; i < len; i++) {
 				gradient.addColorStop(ratios[i], colors[i]);
 			}
+			this.hasFill = true;
 			return this._addAction(['fillStyle', (this.fillStyle = gradient)]);
 		},
 		/**
@@ -78,6 +79,7 @@ define(function(require) {
 			for (var i = 0, len = colors.length; i < len; i++) {
 				gradient.addColorStop(ratios[i], colors[i]);
 			}
+			this.hasFill = true;
 			return this._addAction(['fillStyle', (this.fillStyle = gradient)]);
 		},
 		/**
@@ -87,6 +89,7 @@ define(function(require) {
 		 */
 		beginBitmapFill: function(image, repetition) {
 			var pattern = Graphics._getContext().createPattern(image, repetition || '');
+			this.hasFill = true;
 			return this._addAction(['fillStyle', (this.fillStyle = pattern)]);
 		},
 		/**
@@ -193,7 +196,7 @@ define(function(require) {
 			context.beginPath();
 			for (var i = 0, len = this._actions.length; i < len; i++) {
 				var action = this._actions[i],
-					f = actions[0],
+					f = action[0],
 					args = action.length > 1 ? action.slice(1) : null;
 
 				if (typeof(context[f]) == 'function') context[f].apply(context, args);
@@ -266,15 +269,17 @@ define(function(require) {
 			this._actions.push(action);
 			return this;
 		},
-		/**
-		 * @private
-		 */
-		_getContext: function() {
-			var ctx = iGame.createDOM('canvas').getContext('2d');
-			this._getContext = function() {
+		Statics: {
+			/**
+			 * @private
+			 */
+			_getContext: function() {
+				var ctx = iGame.createDOM('canvas').getContext('2d');
+				this._getContext = function() {
+					return ctx;
+				};
 				return ctx;
-			};
-			return ctx;
+			}
 		}
 	});
 

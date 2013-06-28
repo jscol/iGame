@@ -38,7 +38,8 @@ define(function(require) {
    * @return {Boolean}
    */
   Utils.isFunction = function(val) {
-    return toString.call(val) === '[object Function]';
+    return val instanceof Function;
+    // return Object.prototype.toString.call(val) === '[object Function]';
   };
 
   /**
@@ -47,7 +48,9 @@ define(function(require) {
    * @return {Boolean}
    */
   Utils.isArray = function(val) {
-    return toString.call(val) == '[object Array]';
+    // wp8手机报错
+    return val instanceof Array;
+    // return Object.prototype.toString.call(val) == '[object Array]';
   };
 
   /**

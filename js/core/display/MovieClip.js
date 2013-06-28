@@ -1,5 +1,4 @@
 define(function(require) {
-	var iGame = require('core/iGame');
 	var utils = require('utils/Utils');
 	var Bitmap = require('display/Bitmap');
 
@@ -31,7 +30,7 @@ define(function(require) {
 		 */
 		addFrame: function(frame) {
 			var start = this._frames.length;
-			if (iGame.isArray(frame)) {
+			if (utils.isArray(frame)) {
 				for (var i = 0; i < frame.length; i++) {
 					this.setFrame(frame[i], start + i);
 				}

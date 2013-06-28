@@ -42,7 +42,6 @@ define(function(require) {
 		 * 更新舞台Stage上所有显示对象的数据。
 		 */
 		_update: function(timeInfo) {
-			utils.log(timeInfo);
 			//Stage作为根容器，先更新所有子对象，再调用update方法。
 			var copy = this.children.slice(0);
 			for (var i = 0, len = copy.length; i < len; i++) {
