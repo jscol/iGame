@@ -3,14 +3,16 @@ define(function(require) {
 	var Rectangle = require('geom/Rectangle');
 	var DisplayObject = require('display/DisplayObject');
 
-	/**
-	 * @name { DisplayObjectContainer:[name]}
-	 * @augments {DisplayObject}
-	 * @class  DisplayObjectContainer类继承自DisplayObject，是显示列表中显示对象容器的基类。每个DisplayObjectContainer对象都有自己的子级列表children，用于组织对象的z轴顺序。
-	 * @property eventChildren 指示DisplayObjectContainer的子元素是否接受交互事件。默认为true。
-	 * @property autosize 指示DisplayObjectContainer是否随子元素自动设置大小。默认为false。
-	 */
+	/** @lends DisplayObjectContainer */
 	var DisplayObjectContainer = DisplayObject.extend({
+		/**
+		 * @name DisplayObjectContainer
+		 * @class  DisplayObjectContainer类继承自DisplayObject，是显示列表中显示对象容器的基类。每个DisplayObjectContainer对象都有自己的子级列表children，用于组织对象的z轴顺序。
+		 * @constructor
+		 * @extends {DisplayObject} DisplayObject
+		 * @property eventChildren 指示DisplayObjectContainer的子元素是否接受交互事件。默认为true。
+		 * @property autosize 指示DisplayObjectContainer是否随子元素自动设置大小。默认为false。
+		 */
 	 	initialize: function(props) {
 	 		this.eventChildren = true;
 	 		this.autosize = false;

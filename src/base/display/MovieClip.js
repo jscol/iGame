@@ -2,12 +2,14 @@ define(function(require) {
 	var utils = require('utils/Utils');
 	var Bitmap = require('display/Bitmap');
 
-	/**
-	 * @name {MovieClip:[name]}
-	 * @augments {Bitmap}
-	 * @class MovieClip影片剪辑类，表示一组动画片段。MovieClip是由Image对象的若干矩形区域组成的集合。并按一定规则顺序播放。帧frame的定义格式为：{rect: *required*, label: "", interval: 0, stop: 0, jump: -1}。
-	 */
+	/** @lends MovieClip */
 	var MovieClip = Bitmap.extend({
+		/**
+		 * @name MovieClip
+		 * @class MovieClip影片剪辑类，表示一组动画片段。MovieClip是由Image对象的若干矩形区域组成的集合。并按一定规则顺序播放。帧frame的定义格式为：{rect: *required*, label: "", interval: 0, stop: 0, jump: -1}。
+		 * @constructor
+		 * @extends {Bitmap} Bitmap
+		 */
 		initialize: function(props) {
 			this.interval = 0;
 			this.paused = false;

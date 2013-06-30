@@ -9,8 +9,13 @@ define(function(require, exports, module) {
   //  - http://documentcloud.github.com/backbone/#Model-extend
   //  - https://github.com/joyent/node/blob/master/lib/util.js
   //  - https://github.com/kissyteam/kissy/blob/master/src/seed/src/kissy.js
+  /** @lends Class */
 
-
+  /**
+   * @name Class
+   * @class Class祖宗类。负责创建新类，实现继承等接口。
+   * @constructor
+   */
   // The base Class implementation.
   function Class(o) {
     // Convert existed function to Class.
@@ -35,6 +40,11 @@ define(function(require, exports, module) {
   //    }
   // })
   //
+  /**
+   * 创建一个parent的子类。
+   * @param  {Function} parent     
+   * @param  {Object} properties 
+   */
   Class.create = function(parent, properties) {
     if (!isFunction(parent)) {
       properties = parent

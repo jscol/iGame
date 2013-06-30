@@ -1,14 +1,16 @@
 define(function(require) {
-	var iGame = require('core/iGame');
+	var Base = require('core/Base');
 	var utils = require('utils/Utils');
 	var DisplayObject = require('display/DisplayObject');
 
-	/**
-	 * @name {Graphics:[name]}
-	 * @augments {DisplayObject}
-	 * @class  Graphics类包含一组创建矢量图的方法。
-	 */
+	/** @lends Graphics */
 	var Graphics = DisplayObject.extend({
+		/**
+		 * @name Graphics
+		 * @class  Graphics类包含一组创建矢量图的方法。
+		 * @constructor
+		 * @extends {DisplayObject} DisplayObject
+		 */
 		initialize: function(props) {
 			this.lineWidth = 1;
 			this.strokeStyle = '0';
@@ -216,7 +218,7 @@ define(function(require) {
 		 * 缓存graphics到一个canvas或image。
 		 */
 		cache: function(toImage) {
-			var canvas = iGame.createDOM('canvas', {width: this.width, height: this.height});
+			var canvas = Base.createDOM('canvas', {width: this.width, height: this.height});
 			this._draw(canvas.getContext('2d'));
 
 			this._cache = canvas;
@@ -274,7 +276,7 @@ define(function(require) {
 			 * @private
 			 */
 			_getContext: function() {
-				var ctx = iGame.createDOM('canvas').getContext('2d');
+				var ctx = Base.createDOM('canvas').getContext('2d');
 				this._getContext = function() {
 					return ctx;
 				};

@@ -1,16 +1,19 @@
 define(function(require) {
-	var Event = require('../../lib/events');
-	var Class = require('../../lib/class');
+	var Event = require('core/Events');
+	var Class = require('core/Class');
 
-	/**
-	 * Timer类
-	 * @name {Timer:[name]}
-	 * @class Timer是个计时器。
-	 * @param {int} interval 计时器的时间间隔。
-	 */
+	/** @lends Timer */
 	var Timer = Class.create({
 		Implements: Event,
 
+		/**
+		 * @name Timer
+		 * @class Timer是个计时器。
+		 * @constructor
+		 * @extends {Class} Class
+		 * @requires Events
+		 * @param {int} interval 计时器的时间间隔。
+		 */
 		initialize: function(interval) {
 			this.interval = interval || 50;
 			this.paused = false;

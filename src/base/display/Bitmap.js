@@ -2,16 +2,18 @@ define(function(require) {
 	var utils = require('utils/Utils');
 	var DisplayObject = require('display/DisplayObject');
 
-	/**
-	 * Bitmap类
-	 * @name { Bitmap:[name]}
-	 * @augments {DisplayObject}
-	 * @class Bitmap位图类，表示位图图像的显示对象，简单说它就是Image对象的某个区域的抽象表示。
-	 * @param {Object} props 一个对象，包含以下属性：
-	 * <p>image - Image对象。</p>
-	 * <p>rect - Image对象的矩形区域。格式为：[0,0,100,100]</p>                                                                                  [description]
-	 */
+	/** @lends Bitmap */
 	var Bitmap = DisplayObject.extend({
+		/**
+		 * @name Bitmap
+		 * @class Bitmap位图类，表示位图图像的显示对象，简单说它就是Image对象的某个区域的抽象表示。
+		 * @constructor
+		 * @extends {DisplayObject} DisplayObject
+		 * @requires Utils
+		 * @param {Object} props 一个对象，包含以下属性：
+		 * <p>image - Image对象。</p>
+		 * <p>rect - Image对象的矩形区域。格式为：[0,0,100,100]</p>                                                                                  [description]
+		 */
 		initialize: function(props) {
 			this.image = null;
 			this.rectX = 0;

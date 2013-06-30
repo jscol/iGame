@@ -1,23 +1,25 @@
 define(function(require) {
-	var iGame = require('core/iGame');
+	var Base = require('core/Base');
 	var utils = require('utils/Utils');
 	var DisplayObject = require('display/DisplayObject');
 
-	/**
-	 * @name {Text:[name]}
-	 * @augments {DisplayObject}
-	 * @class Text类提供简单的文字显示功能。
-	 * @property text 指定要显示的文本内容。
-	 * @property font 指定使用的字体样式。
-	 * @property color 指定使用的字体颜色。
-	 * @property textAlign 指定文本的对齐方式。如："start"，"end"，"left"，"right，"and "center"。
-	 * @property outline 指定文本是绘制边框还是填充。
-	 * @property maxWidth 指定文本绘制的最大宽度。
-	 * @property lineWidth 指定文本行的最大宽度。
-	 * @property lineSpacing 指定文本的行距。
-	 * @property fontMetrics 指定字体的试题对象。
-	 */
+	/** @lends Text */
 	var Text = DisplayObject.extend({
+		/**
+		 * @name Text
+		 * @class Text类提供简单的文字显示功能。
+		 * @constructor
+		 * @extends {DisplayObject} DisplayObject
+		 * @property text 指定要显示的文本内容。
+		 * @property font 指定使用的字体样式。
+		 * @property color 指定使用的字体颜色。
+		 * @property textAlign 指定文本的对齐方式。如："start"，"end"，"left"，"right，"and "center"。
+		 * @property outline 指定文本是绘制边框还是填充。
+		 * @property maxWidth 指定文本绘制的最大宽度。
+		 * @property lineWidth 指定文本行的最大宽度。
+		 * @property lineSpacing 指定文本的行距。
+		 * @property fontMetrics 指定字体的试题对象。
+		 */
 		initialize: function(props) {
 			this.text = '';
 			this.font = '12px arial';
@@ -118,7 +120,7 @@ define(function(require) {
 		 */
 		getDrawable: function(context) {
 			//for DOMContext drawing only
-			if (this.drawable == null) this.setDrawable(iGame.createDOM('div'), true);
+			if (this.drawable == null) this.setDrawable(Base.createDOM('div'), true);
 			return this.drawable.get(this, context);
 		},
 		Statics: {
@@ -129,7 +131,7 @@ define(function(require) {
 			 */
 			getFontMetrics: function(font) {
 				var metrics = {};
-				var elem = iGame.createDOM('div', {style: {font: font, position: 'absolute'}, innerHTML: 'M'});
+				var elem = Base.createDOM('div', {style: {font: font, position: 'absolute'}, innerHTML: 'M'});
 				document.body.appendChild(elem);
 				//the line height of the specific font style.
 				metrics.height = elem.offsetHeight;

@@ -1,18 +1,21 @@
 define(function(require) {
-	var Class = require('lib/class');
-	var iGame = require('core/iGame');
+	var Class = require('core/Class');
+	var Base = require('core/Base');
 
-	/**
-	 * @name {Context:[name]}
-	 * @class  Context是显示对象结构的上下文，实现显示对象结构的渲染。此类为抽象类。
-	 * @param {Object} props 一个对象。包含以下属性：
-	 * <p>canvas - 渲染上下文所对应的画面。</p>
-	 */
+	/** @lends Context */
 	var Context = Class.create({
+		/**
+		 * @name Context
+		 * @class  Context是显示对象结构的上下文，实现显示对象结构的渲染。此类为抽象类。
+		 * @constructor
+		 * @extends {Class} Class
+		 * @param {Object} props 一个对象。包含以下属性：
+		 * <p>canvas - 渲染上下文所对应的画面。</p>
+		 */
 		initialize: function(props) {
 			if (props.canvas == null) throw 'Context Error: canvas is required.';
 			this.canvas = null;
-			iGame.merge(this, props);
+			Base.merge(this, props);
 		},
 
 		/**

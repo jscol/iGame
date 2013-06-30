@@ -1,5 +1,11 @@
 define(function(require) {
   
+  /** @lends Utils */
+
+  /**
+   * @name Utils
+   * @class 辅助类。
+   */
   var Utils = {};
 
   Utils._counter = 0;

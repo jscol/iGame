@@ -1,16 +1,101 @@
 define(function(require) {
 	var CanvasContext = require('context/CanvasContext');
 	var Timer = require('utils/Timer');
-	iGame = require('core/iGame');
+	Base = require('core/Base');
+	Game = require('game/Game');
 	utils = require('utils/Utils');
-	Class = require('lib/class');
+	Class = require('core/Class');
   	Stage = require('display/Stage');
   	Bitmap = require('display/Bitmap');
   	Graphics = require('display/Graphics');
   	MovieClip = require('display/MovieClip');
   	DisplayObjectContainer = require('display/DisplayObjectContainer');
+  	Scene = require('display/Scene');
+  	Tween = require('utils/Tween');
 
+  	var StartScene = Scene.extend({
+  		frames: 0,
 
+  		onEnter: function() {
+  			bmp1 = new Bitmap({image: girl, rect: [0,0,64,85], regX: 32, regY: 42});
+			bmp1.rotation = 0;
+			bmp1.x = 300;
+			bmp1.y = 100;
+			bmp1.enabled = true;
+
+			bmp2 = new Bitmap({image: boy, rect: [0,0,64,85], regX: 32, regY: 42});
+			bmp2.x = 100;
+			bmp2.y = 100;
+			bmp2.scaleX = 2;
+			bmp2.scaleY = 2;
+
+			mc = new MovieClip({image: girl, interval: 150});
+			mc.addFrame([
+				{rect:[0,0,64,85], label:"stand", stop:1},
+				{rect:[192,0,64,85], label:"walk"},
+				{rect:[192,85,64,85], jump:"walk"},
+				{rect:[320,0,64,85], label:"cheer"},
+				{rect:[384,0,64,85]},
+				{rect:[448,0,64,85], jump:"cheer"}
+			]);
+			mc.x = 150;
+			mc.y = 150;
+			mc.gotoAndPlay('cheer');
+
+			mc.draggable();
+
+			//squirrel
+			squirrel = new DisplayObjectContainer();
+			head = new MovieClip({id:"head", image:Base.getDOM("headIdle"), useFrames:true, interval:2, x:5, y:0});
+			head.addFrame([
+			{rect:[0,0,66,56]},
+			{rect:[69,0,66,56]},
+			{rect:[138,0,66,56]},
+			{rect:[207,0,66,56]}
+			]);
+
+			body = new MovieClip({id:"body", image:Base.getDOM('bodyWalk'), useFrames:true, interval:2, x:0, y:25});
+			body.addFrame([
+			{rect:[0,0,108,66]},
+			{rect:[109,0,108,66]},
+			{rect:[218,0,108,66]},
+			{rect:[327,0,108,66]},
+			{rect:[436,0,108,66]},
+			{rect:[545,0,108,66]},
+			{rect:[0,70,108,66]},
+			{rect:[109,70,108,66]},
+			{rect:[218,70,108,66]},
+			{rect:[327,70,108,66]},
+			{rect:[436,70,108,66]}
+			]);
+			body.draggable();
+
+			squirrel.draggable();
+
+			// Tween
+			// Tween.to(bmp2, {x:200, y:120}, {time:1000, delay:0, paused:false, reverse:true, loop:true, //next:tween1, 
+			// 	onComplete:function(tween) {
+			// 		console.log("complete:", Date.now());
+			// 	}
+			// });
+			squirrel.on('mousedoen', function() {
+				console.log('squirrel');
+			})
+
+			this.addChild(bmp1, bmp2, mc, squirrel.addChild(body, head));
+  		},
+  		update: function() {
+  			frames++;
+  		}
+  	});
+
+	var frames = 0, fpsContainer = Base.getDOM('fps');
+	setInterval(function() {
+		fpsContainer.innerHTML = 'FPS:' + frames;
+		frames = 0;
+	}, 1000);
+
+  	new Game('demo', StartScene, 480, 320, 60).start();
 
 /*
 var container, stage, context, girl, boy, width, height, timer, fps, events, params;
@@ -18,16 +103,16 @@ var bmp1, bmp2, mc;
 
 window.onload = function() {
 
-	container = iGame.getDOM('container');
-	girl = iGame.getDOM('girl');
-	boy = iGame.getDOM('boy');
-	events = iGame.supportTouch ? ['touchend'] : ['mouseup'];
+	container = Base.getDOM('container');
+	girl = Base.getDOM('girl');
+	boy = Base.getDOM('boy');
+	events = Base.supportTouch ? ['touchend'] : ['mouseup'];
 
 	width = 480;
 	height = 320;
 	fps = 60;
 
-	var canvas = iGame.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
+	var canvas = Base.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
 	container.appendChild(canvas);
 	context = new CanvasContext({canvas:canvas});
 
@@ -76,7 +161,7 @@ function update() {
 	bmp1.rotation += 5;
 }
 
-var frames = 0, fpsContainer = iGame.getDOM('fps');
+var frames = 0, fpsContainer = Base.getDOM('fps');
 setInterval(function() {
 	fpsContainer.innerHTML = 'FPS:' + frames;
 	frames = 0;
@@ -91,14 +176,14 @@ var box, rect1, rect2;
 
 function init()
 {
-	container = iGame.getDOM("container");
-	events = iGame.supportTouch ? ["touchend"] : ["mouseup"];
+	container = Base.getDOM("container");
+	events = Base.supportTouch ? ["touchend"] : ["mouseup"];
 
 	width = 480;
 	height = 320;
 	fps = 60;
 
-	var canvas = iGame.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
+	var canvas = Base.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
 	container.appendChild(canvas);
 	context = new CanvasContext({canvas:canvas});		
 
@@ -162,7 +247,7 @@ function createRect(w, h, color)
 	return img;
 }
 
-var frames = 0, fpsContainer = iGame.getDOM("fps");
+var frames = 0, fpsContainer = Base.getDOM("fps");
 setInterval(function()
 {
 	fpsContainer.innerHTML = "FPS:" + frames;
@@ -177,13 +262,13 @@ var timer, container, context, params, width, height, fps, stage;
 
 function init()
 {	
-	container = iGame.getDOM("container");
+	container = Base.getDOM("container");
 	
 	width = 480;
 	height = 320;
 	fps = 60;
 
-	var canvas = iGame.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
+	var canvas = Base.createDOM("canvas", {width:width, height:height, style:{position:"absolute",backgroundColor:"#fff"}});		
 	container.appendChild(canvas);
 	context = new CanvasContext({canvas:canvas});		
 	
@@ -225,7 +310,7 @@ function draw()
 	stage.addChild(g1, g2, g3, g4, g5, g6);
 }
 
-var frames = 0, fpsContainer = iGame.getDOM("fps");
+var frames = 0, fpsContainer = Base.getDOM("fps");
 setInterval(function()
 {
 	fpsContainer.innerHTML = "FPS:" + frames;

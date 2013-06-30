@@ -1,39 +1,46 @@
 define(function(require) {
-  var iGame = require('core/iGame');
-  var Class = require('lib/class');
-  var Event = require('lib/events');
+  var Base = require('core/Base');
+  var Class = require('core/Class');
+  var Event = require('core/Events');
 
   var Matrix = require('geom/Matrix')
   var Drawable = require('display/Drawable');
   var utils = require('utils/Utils');
 
-  /**
-   * @name DisplayObject
-   * @class DisplayObject类是可放在舞台上的所有显示对象的基类。DisplayObject类定义了若干显示对象的基本属性。
-   * @augments Event
-   * @property id DisplayObject对象唯一标识符id。
-   * @property name DisplayObject对象的名称。
-   * @property x DisplayObject对象相对父容器的x轴坐标。
-   * @property y DisplayObject对象相对父容器的y轴坐标。
-   * @property regX DisplayObject对象的注册点（中心点）的x轴坐标。
-   * @property regY DisplayObject对象的注册点（中心点）的y轴坐标。
-   * @property width DisplayObject对象的宽。
-   * @property height DisplayObject对象的高。
-   * @property alpha DisplayObject对象的透明度。取值范围为0-1，默认为1.
-   * @property scaleX DisplayObject对象在x轴上的缩放值。取值范围为0-1。
-   * @property scaleY DisplayObject对象在y轴上的缩放值。取值范围为0-1.
-   * @property rotation DisplayObject对象的旋转角度。默认为0.
-   * @property visible 指示DisplayObject对象是否可见。默认为true。
-   * @property eventEnabled 指示DisplayObject对象是否接受交互事件。默认为true。.
-   * @property transformEnabled 指示DisplayObject对象是否执行交换。默认为false。
-   * @property useHandCursor 指示DisplayObject对象是否支持手型的鼠标光标。默认为false。
-   * @property polyArea 指示DisplayObject对象的多边形碰撞区域。默认为null，即使用对象的外包围矩形。
-   * @property mask 指示DisplayObject对象的遮罩对象。默认为null。
-   * @property parent DisplayObject对象的父容器。
-   */
+  /** @lends DisplayObject */
   var DisplayObject = Class.create({
     Implements: Event,
 
+    /**
+     * @name DisplayObject
+     * @class DisplayObject类是可放在舞台上的所有显示对象的基类。DisplayObject类定义了若干显示对象的基本属性。
+     * @constructor
+     * @extends {Class} Class
+     * @requires Event
+     * @requires Base
+     * @requires Matrix
+     * @requires Drawable
+     * @requires Utils
+     * @property id DisplayObject对象唯一标识符id。
+     * @property name DisplayObject对象的名称。
+     * @property x DisplayObject对象相对父容器的x轴坐标。
+     * @property y DisplayObject对象相对父容器的y轴坐标。
+     * @property regX DisplayObject对象的注册点（中心点）的x轴坐标。
+     * @property regY DisplayObject对象的注册点（中心点）的y轴坐标。
+     * @property width DisplayObject对象的宽。
+     * @property height DisplayObject对象的高。
+     * @property alpha DisplayObject对象的透明度。取值范围为0-1，默认为1.
+     * @property scaleX DisplayObject对象在x轴上的缩放值。取值范围为0-1。
+     * @property scaleY DisplayObject对象在y轴上的缩放值。取值范围为0-1.
+     * @property rotation DisplayObject对象的旋转角度。默认为0.
+     * @property visible 指示DisplayObject对象是否可见。默认为true。
+     * @property eventEnabled 指示DisplayObject对象是否接受交互事件。默认为true。.
+     * @property transformEnabled 指示DisplayObject对象是否执行交换。默认为false。
+     * @property useHandCursor 指示DisplayObject对象是否支持手型的鼠标光标。默认为false。
+     * @property polyArea 指示DisplayObject对象的多边形碰撞区域。默认为null，即使用对象的外包围矩形。
+     * @property mask 指示DisplayObject对象的遮罩对象。默认为null。
+     * @property parent DisplayObject对象的父容器。
+     */
     initialize: function(props) {
       this.id = utils.createUID('DisplayObject');
 
@@ -60,10 +67,11 @@ define(function(require) {
       this.context = null;
 
       this._depth = 0;
+      this._draggable = false;
       this._lastState = {};
       this._stateList = ['x', 'y', 'regX', 'regY', 'width', 'height', 'alpha', 'scaleX', 'scaleY', 'rotation', 'visible', '_depth'];
 
-      iGame.merge(this, props, true);
+      Base.merge(this, props, true);
     },
     /**
      * 设置可绘制对象，默认是一个Image对象，可通过重写此方法进行DOM绘制。
@@ -164,7 +172,7 @@ define(function(require) {
      * @return {Number} 在包围矩形之内返回1，在边界上返回0，否则返回-1。
      */
     hitTestPoint: function(x, y, usePolyCollision) {
-      return iGame.hitTestPoint(this, x, y, usePolyCollision);
+      return Base.hitTestPoint(this, x, y, usePolyCollision);
     },
     /**
      * 计算DisplayObject对象的包围矩形，以确定由object参数指定的显示对象是否与其相交。
@@ -173,7 +181,7 @@ define(function(require) {
      * @return {Boolean} 相交返回true，否则返回false。
      */
     hitTestObject: function(object, usePolyCollision) {
-      return iGame.hitTestObject(this, object, usePolyCollision);
+      return Base.hitTestObject(this, object, usePolyCollision);
     },
     /**
      * 将x和y指定的点从显示对象的（本地）坐标转换为舞台（全局）坐标。
@@ -311,6 +319,12 @@ define(function(require) {
      */
     toString: function() {
       return utils.displayObjectToString(this);
+    },
+    /**
+     * 使DisplayObject可以拖动。
+     */
+    draggable: function() {
+      this._draggable = true;
     }
   });
 

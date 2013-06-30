@@ -1,5 +1,11 @@
 define(function(require) {
-	var iGame = {};
+	/**@lends Base */
+
+	/**
+	 * @name Base
+	 * @class Base核心类。
+	 */
+	var Base = {};
 
 	/**
 	 * 把props参数指定的属性或方法复制到obj对象上。
@@ -8,7 +14,7 @@ define(function(require) {
 	 * @param  {Boolean} strict 指定是否采用严格模式复制。默认为false。
 	 * @return {Object} 复制后的obj对象。
 	 */
-	iGame.merge = function(obj, props, strict) {
+	Base.merge = function(obj, props, strict) {
 		for (var key in props) {
 			if (!strict || obj.hasOwnProperty(key) || obj[key] != undefined) obj[key] = props[key];
 		}
@@ -20,7 +26,7 @@ define(function(require) {
 	 * @param  {String} id DOM对象的id。
 	 * @return {HTMLElement} DOM对象。
 	 */
-	iGame.getDOM = function(id) {
+	Base.getDOM = function(id) {
 		return document.getElementById(id);
 	};
 
@@ -30,7 +36,7 @@ define(function(require) {
 	 * @param  {Object} props 指定生成的DOM的属性对象。
 	 * @return {HTMLElement} 新生成的DOM对象。
 	 */
-	iGame.createDOM = function(type, props) {
+	Base.createDOM = function(type, props) {
 		var dom = document.createElement(type);
 		for (var p in props) {
 			var val = props[p];
@@ -49,8 +55,8 @@ define(function(require) {
 	 * @param  {HTMLElement} elem DOM元素。
 	 * @return {Object}指定DOM元素在页面中的位置偏移。格式为{left: leftValue, top: topValue}。
 	 */
-	iGame.getElementOffset = function(elem) {
-		var left = elem.offsetLeft. top = elem.offsetTop;
+	Base.getElementOffset = function(elem) {
+		var left = elem.offsetLeft, top = elem.offsetTop;
 		while ((elem = elem.offsetParent) && elem != document.body && elem != document) {
 			left += elem.offsetLeft;
 			top += elem.offsetTop;
@@ -64,13 +70,13 @@ define(function(require) {
 	 * @param  {Object} imageObj 指定渲染的image及相关设置，如绘制区域rect。
 	 * @return {HTMLElement} 新创建的DOM对象。
 	 */
-	iGame.createDOMDrawable = function(disObj, imageObj) {
+	Base.createDOMDrawable = function(disObj, imageObj) {
 		var tag = disObj.tagName || 'div';
 		var img = imageObj.image;
 		var w = disObj.width || (img && img.width);
 		var h = disObj.height || (img && img.height);
 
-		var elem = iGame.createDOM(tag);
+		var elem = Base.createDOM(tag);
 		if (disObj.id) elem.id = disObj.id;
 		elem.style.position = 'absolute';
 		elem.style.left = (disObj.left || 0) + 'px';
@@ -109,7 +115,7 @@ define(function(require) {
 	 * @param  {Boolean} usePolyCollision 指定是否采用多边形碰撞。默认为false。
 	 * @return {Number} 如果点x，y在对象obj内为1，在外为-1，在边上为0.
 	 */
-	iGame.hitTestPoint = function(obj, x, y, usePolyCollision) {
+	Base.hitTestPoint = function(obj, x, y, usePolyCollision) {
 		var b = obj.getBounds(), len = b.length;
 		var hit = x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height;
 
@@ -148,11 +154,11 @@ define(function(require) {
 	 * @param  {Boolean} usePolyCollision 指定是否采用多边形碰撞。默认为false。
 	 * @return {Boolean} 发生碰撞为true，否则为false。
 	 */
-	iGame.hitTestObject = function(obj1, obj2, usePolyCollision) {
+	Base.hitTestObject = function(obj1, obj2, usePolyCollision) {
 		var b1 = obj1.getBounds(), b2 = obj2.getBounds();
 		var hit = b1.x <= b2.x + b2.width && b2.x <= b1.x + b1.width && b1.y <= b2.y + b2.height && b2.y <= b1.y + b1.height;
 		if (hit && usePolyCollision) {
-			hit = iGame.polygonCollision(b1, b2);
+			hit = Base.polygonCollision(b1, b2);
 			return hit !== false;
 		}
 		return hit;
@@ -165,18 +171,18 @@ define(function(require) {
 	 * @param  {Array} poly2 多边形顶点数组。
 	 * @return {Boolean} 发生碰撞为true，否则为false。
 	 */
-	iGame.polygonCollision = function(poly1, poly2) {
+	Base.polygonCollision = function(poly1, poly2) {
 		var result = doSATCheck(poly1, poly2, {overlap: -Infinity, normal: {x: 0, y: 0}});
 		if (result) return doSATCheck(poly2, poly1, result);
 		return false;
 	};
 
 	/**
-	 * 返回iGame的字符串表示形式。
-	 * @return {String} iGame的字符串表示形式。
+	 * 返回Base的字符串表示形式。
+	 * @return {String} Base的字符串表示形式。
 	 */
-	iGame.toString = function() {
-		return 'iGame by 7u7u';
+	Base.toString = function() {
+		return 'Base by 7u7u';
 	};
 
 
@@ -206,7 +212,7 @@ define(function(require) {
 		ns.cssPrefix = ns.isWebKit ? "webkit" : ns.isFirefox ? "Moz" : ns.isOpera ? "O" : ns.isIE ? "ms" : "";
 	}
 
-	detectBrowser(iGame);
+	detectBrowser(Base);
 
 	function doSATCheck(poly1, poly2, result)
 	{
@@ -267,7 +273,9 @@ define(function(require) {
 
 
 	/**
-	 * @class Array
+	 * 从数组中随机n项。
+	 * @param  {int} n       随机元素数量。
+	 * @param  {Boolean} notUniq 是否可以重复。
 	 */
 	Array.prototype.random = function(n, notUniq) {
 		var array = this.clone(), val = [], i = 0, r;
@@ -395,14 +403,11 @@ define(function(require) {
 	    this.length = 0;
 	};
 
-	/**
-	 * @class Math
-	 */
 	Math.DEG_TO_RAD = Math.PI / 180;
 	Math.RAD_TO_DEG = 180 / Math.PI;
 
 	/**
-	 * @class Function
+	 * 改变函数执行的上下文环境。
 	 */
 	Function.prototype.bind = function(bind) {
 		var self = this;
@@ -412,5 +417,5 @@ define(function(require) {
 		};
 	};
 
-	return iGame;
+	return Base;
 });

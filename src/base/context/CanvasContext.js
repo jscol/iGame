@@ -1,5 +1,5 @@
 define(function(require) {
-	var iGame = require('core/iGame');
+	var Base = require('core/Base');
 	var utils = require('utils/Utils');
 	var Context = require('context/Context');
 	var Graphics = require('display/Graphics');
@@ -7,20 +7,22 @@ define(function(require) {
 	var DisplayObjectContainer = require('display/DisplayObjectContainer');
 	var Stage = require('display/Stage');
 
-	/**
-	 * @name {CanvasContext:[name]}
-	 * @augments {Context}
-	 * @class  CanvasContext是Canvas渲染上下文，将显示对象渲染到指定的Canvas上。
-	 * @param {Object} props 一个对象。包含以下属性：
-	 * <p>canvas - 渲染上下文所对应的canvas，HTMLCanvasElement对象。</p>
-	 */
+	/** @lends CanvasContext */
 	var CanvasContext = Context.extend({
+		/**
+		 * @name CanvasContext
+		 * @class  CanvasContext是Canvas渲染上下文，将显示对象渲染到指定的Canvas上。
+		 * @constructor
+		 * @extends {Context} Context
+		 * @param {Object} props 一个对象。包含以下属性：
+		 * <p>canvas - 渲染上下文所对应的canvas，HTMLCanvasElement对象。</p>
+		 */
 		initialize: function(props) {
 			CanvasContext.superclass.initialize.call(this, props);
 			this.context = this.canvas.getContext('2d');
 		},
 		Statics: {
-			// instance: new CanvasContext({canvas: iGame.createDOM('canvas')})
+			// instance: new CanvasContext({canvas: Base.createDOM('canvas')})
 		},
 		/**
 		 * 准备绘制，保存当前上下文。
@@ -122,7 +124,7 @@ define(function(require) {
 		}
 	});
 
-	CanvasContext.instance = new CanvasContext({canvas: iGame.createDOM('canvas')});
+	CanvasContext.instance = new CanvasContext({canvas: Base.createDOM('canvas')});
 
 	return CanvasContext;
 });

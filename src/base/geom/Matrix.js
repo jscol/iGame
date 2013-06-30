@@ -1,15 +1,14 @@
-/**
- * Created with JetBrains WebStorm.
- * User: zero7u
- * Date: 13-6-26
- * Time: 下午5:20
- * To change this template use File | Settings | File Templates.
- */
-
 define(function(require) {
-  var Class = require('lib/class');
+  var Class = require('core/Class');
 
+  /** @lends Matrix */
   var Matrix = Class.create({
+    /**
+     * @name Matrix
+     * @class 矩形类。
+     * @constructor
+     * @extends {Class} Class
+     */
     initialize: function(a, b, c, d, tx, ty) {
       this.a = a;
       this.b = b;
@@ -18,6 +17,11 @@ define(function(require) {
       this.tx = tx;
       this.ty = ty;
     },
+    /**
+     * concat
+     * @param  {Matrix} mtx
+     * @return {Matrix}
+     */
     concat: function(mtx) {
       var a = this.a;
       var c = this.c;
@@ -31,6 +35,11 @@ define(function(require) {
       this.ty = tx * mtx.b + this.ty * mtx.d + mtx.ty;
       return this;
     },
+    /**
+     * rotate
+     * @param  {int} angle 
+     * @return {Matrix}       
+     */
     rotate: function(angle) {
       var cos = Math.cos(angle);
       var sin = Math.sin(angle);
@@ -47,6 +56,12 @@ define(function(require) {
       this.ty = tx * sin + this.ty * cos;
       return this;
     },
+    /**
+     * scale
+     * @param  {int} sx 
+     * @param  {int} sy 
+     * @return {Matrix}    
+     */
     scale: function(sx, sy) {
       this.a *= sx;
       this.d *= sy;
@@ -54,16 +69,28 @@ define(function(require) {
       this.ty *= sy;
       return this;
     },
+    /**
+     * translate
+     * @param  {int} dx 
+     * @param  {int} dy 
+     * @return {Matrix}    
+     */
     translate: function(dx, dy) {
       this.tx += dx;
       this.ty += dy;
       return this;
     },
+    /**
+     * identity
+     */
     identity: function() {
       this.a = this.d = 1;
       this.b = this.c = this.tx = this.ty = 0;
       return this;
     },
+    /**
+     * invert
+     */
     invert: function() {
       var a = this.a;
       var b = this.b;
@@ -80,6 +107,13 @@ define(function(require) {
       this.ty = -(a * this.ty - b * tx) / i;
       return this;
     },
+    /**
+     * transformPoint
+     * @param  {Object} point     
+     * @param  {Boolean} round     
+     * @param  {Boolean} returnNew 
+     * @return {Object}           
+     */
     transformPoint: function(point, round, returnNew) {
       var x = point.x * this.a + point.y * this.c + this.tx;
       var y =	point.x * this.b + point.y * this.d + this.ty;
@@ -93,9 +127,15 @@ define(function(require) {
       point.y = y;
       return point;
     },
+    /**
+     * clone
+     */
     clone: function() {
       return new Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
     },
+    /**
+     * toString
+     */
     toString: function() {
       return "(a="+this.a+", b="+this.b+", c="+this.c+", d="+this.d+", tx="+this.tx+", ty="+this.ty+")";
     }
